@@ -6,12 +6,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import org.alexwayne.enemies.Enemy;
+import org.alexwayne.enemies.GreenEnemy;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Player player;
 
 	OrthographicCamera camera;
+
+	Enemy enemies[] = new Enemy[10];
 
 	@Override
 	public void create () {
@@ -20,10 +24,18 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(1280, 720);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
+
+		for(int i = 0; i < enemies.length; i++){
+			enemies[i] = new GreenEnemy(i * 50 + 5, 425);
+		}
 	}
 
 	void update(){
-		player.update(Gdx.graphics.getDeltaTime());
+		float dt = Gdx.graphics.getDeltaTime();
+		player.update(dt);
+		for(int i = 0; i < enemies.length; i++){
+			enemies[i].update(dt);
+		}
 	}
 
 	@Override
@@ -33,6 +45,9 @@ public class Game extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
 		player.render(batch);
+		for(int i = 0; i < enemies.length; i++){
+			enemies[i].render(batch);
+		}
 		batch.end();
 	}
 

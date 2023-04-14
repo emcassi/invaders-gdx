@@ -3,17 +3,11 @@ package org.alexwayne;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import org.alexwayne.enemies.Enemy;
 import org.alexwayne.enemies.EnemyRow;
-import org.alexwayne.enemies.GreenEnemy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -60,12 +54,10 @@ public class Game extends ApplicationAdapter {
 		}
 
 
-		Iterator<EnemyRow> rowIterator = rows.iterator();
-		while(rowIterator.hasNext()) {
-			EnemyRow row = rowIterator.next();
+		for (EnemyRow row : rows) {
 			row.setVelocity(blockVel);
 			row.update(dt, player.projs);
-			if(moveDown) {
+			if (moveDown) {
 				row.moveDown();
 			}
 		}
@@ -81,9 +73,7 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		player.render(batch);
 
-		Iterator<EnemyRow> rowIterator = rows.iterator();
-		while(rowIterator.hasNext()) {
-			EnemyRow row = rowIterator.next();
+		for (EnemyRow row : rows) {
 			row.render(batch);
 		}
 		batch.end();

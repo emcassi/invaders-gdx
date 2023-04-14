@@ -11,12 +11,12 @@ public class EnemyRow {
     ArrayList<Enemy> enemies;
     public int count = 10;
 
-    Vector2 position, size;
+    Vector2 position, velocity, size;
     boolean movingDown = false;
 
-    public EnemyRow(float x, float y) {
+    public EnemyRow(float x, float y, float vel) {
         position = new Vector2(x, y);
-
+        velocity = new Vector2(vel, 0);
         enemies = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             Enemy newEnemy = new GreenEnemy((i * 50) + 5, y, 40);
@@ -38,11 +38,11 @@ public class EnemyRow {
     public void update(float dt, ArrayList<PlayerProjectile> playerProjs) {
         Iterator<Enemy> enemyIterator = enemies.iterator();
 
-        if (movingDown) {
+        if(movingDown){
             while (enemyIterator.hasNext()) {
                 Enemy enemy = enemyIterator.next();
-                enemy.velocity.x *= -1;
                 enemy.position.y -= size.y;
+                enemy.velocity = velocity;
                 checkProjCollision(playerProjs, enemyIterator, enemy);
                 enemy.update(dt);
             }
@@ -50,21 +50,27 @@ public class EnemyRow {
         } else {
             while (enemyIterator.hasNext()) {
                 Enemy enemy = enemyIterator.next();
+                enemy.velocity = velocity;
                 checkProjCollision(playerProjs, enemyIterator, enemy);
                 enemy.update(dt);
-                if(enemy.position.x < 0){
-                    movingDown = true;
-                } else if(enemy.position.x > 600 - enemy.size.x){
-                    movingDown = true;
-                }
             }
         }
+
+
         if (enemies.size() < 1) {
             dispose();
         }
     }
 
-    void checkProjCollision(ArrayList<PlayerProjectile> playerProjs, Iterator<Enemy> iter, Enemy enemy) {
+    public void moveDown(){
+        position.y -= size.y;
+        velocity.x *= -1;
+        movingDown = true;
+    }
+
+    boolean checkProjCollision(ArrayList<PlayerProjectile> playerProjs, Iterator<Enemy> iter, Enemy enemy) {
+        boolean hits = false;
+
         Iterator<PlayerProjectile> projectileIterator = playerProjs.iterator();
         while (projectileIterator.hasNext()) {
             PlayerProjectile proj = projectileIterator.next();
@@ -73,8 +79,11 @@ public class EnemyRow {
                 projectileIterator.remove();
                 enemy.dispose();
                 iter.remove();
+                hits = true;
             }
         }
+
+        return hits;
     }
 
     public void dispose() {
@@ -84,5 +93,9 @@ public class EnemyRow {
             enemy.dispose();
             enemyIterator.remove();
         }
+    }
+
+    public void setVelocity(float x){
+        velocity.x = x;
     }
 }

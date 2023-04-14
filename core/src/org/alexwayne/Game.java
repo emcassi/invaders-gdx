@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import org.alexwayne.enemies.Enemy;
 import org.alexwayne.enemies.EnemyRow;
@@ -23,6 +24,8 @@ public class Game extends ApplicationAdapter {
 	int enemiesInRow = 10;
 	ArrayList<EnemyRow> rows;
 
+	float blockPosX = 5, blockSpeed = 30, blockVel, blockWidth;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -31,19 +34,43 @@ public class Game extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
 		rows = new ArrayList<>();
+		blockVel = blockSpeed;
+		blockWidth = enemiesInRow * 55;
 
-		EnemyRow newRow = new EnemyRow(5, 425);
-		rows.add(newRow);
+		for(int i = 0; i < 5; i++){
+			EnemyRow newRow = new EnemyRow(5, 425 + i * 50, blockVel);
+			rows.add(newRow);
+		}
 	}
 
 	void update(){
 		float dt = Gdx.graphics.getDeltaTime();
 		player.update(dt);
 
+		boolean moveDown = false;
+		blockPosX += blockVel * dt;
+		if(blockPosX < 0) {
+			moveDown = true;
+			blockVel *= -1;
+			blockPosX = 0;
+		} else if(blockPosX > 700 - blockWidth) {
+			moveDown = true;
+			blockVel *= -1;
+			blockPosX = 700 - blockWidth;
+		}
+
+
 		Iterator<EnemyRow> rowIterator = rows.iterator();
 		while(rowIterator.hasNext()) {
-			rowIterator.next().update(dt, player.projs);
+			EnemyRow row = rowIterator.next();
+			row.setVelocity(blockVel);
+			row.update(dt, player.projs);
+			if(moveDown) {
+				row.moveDown();
+			}
 		}
+
+		System.out.println(blockPosX);
 	}
 
 	@Override

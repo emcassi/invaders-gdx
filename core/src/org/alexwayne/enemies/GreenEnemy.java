@@ -44,7 +44,6 @@ public class GreenEnemy extends Enemy {
             currentAnimFrame++;
             if(currentAnimFrame >= numFrames)
                 currentAnimFrame = 0;
-            System.out.println(currentAnimFrame);
         } else {
             animTimer -= dt;
         }

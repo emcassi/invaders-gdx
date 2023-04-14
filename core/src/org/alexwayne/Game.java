@@ -32,7 +32,7 @@ public class Game extends ApplicationAdapter {
 		blockWidth = enemiesInRow * 55;
 
 		for(int i = 0; i < 5; i++){
-			EnemyRow newRow = new EnemyRow(5, 425 + i * 50, blockVel);
+			EnemyRow newRow = new EnemyRow(5, 430 + i * 60, blockVel);
 			rows.add(newRow);
 		}
 	}

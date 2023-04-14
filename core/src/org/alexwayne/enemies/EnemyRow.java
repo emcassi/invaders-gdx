@@ -23,14 +23,12 @@ public class EnemyRow {
             enemies.add(newEnemy);
         }
 
-        size = new Vector2(enemies.size() * 55, 50);
+        size = new Vector2(enemies.size() * 55, 60);
 
     }
 
     public void render(SpriteBatch batch) {
-        Iterator<Enemy> enemyIterator = enemies.iterator();
-        while (enemyIterator.hasNext()) {
-            Enemy enemy = enemyIterator.next();
+        for (Enemy enemy : enemies) {
             enemy.render(batch);
         }
     }
@@ -68,9 +66,7 @@ public class EnemyRow {
         movingDown = true;
     }
 
-    boolean checkProjCollision(ArrayList<PlayerProjectile> playerProjs, Iterator<Enemy> iter, Enemy enemy) {
-        boolean hits = false;
-
+    void checkProjCollision(ArrayList<PlayerProjectile> playerProjs, Iterator<Enemy> iter, Enemy enemy) {
         Iterator<PlayerProjectile> projectileIterator = playerProjs.iterator();
         while (projectileIterator.hasNext()) {
             PlayerProjectile proj = projectileIterator.next();
@@ -79,11 +75,8 @@ public class EnemyRow {
                 projectileIterator.remove();
                 enemy.dispose();
                 iter.remove();
-                hits = true;
             }
         }
-
-        return hits;
     }
 
     public void dispose() {

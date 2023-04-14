@@ -26,7 +26,7 @@ public class PlayerProjectile extends Projectile{
     }
 
     @Override
-    void dispose(){
+    public void dispose(){
         texture.dispose();
     }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import org.alexwayne.enemies.Enemy;
+import org.alexwayne.enemies.EnemyRow;
 import org.alexwayne.enemies.GreenEnemy;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class Game extends ApplicationAdapter {
 	OrthographicCamera camera;
 
 	int enemiesInRow = 10;
-	ArrayList<Enemy> enemies;
+	ArrayList<EnemyRow> rows;
 
 	@Override
 	public void create () {
@@ -29,32 +30,19 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(1280, 720);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
-		enemies = new ArrayList<>();
+		rows = new ArrayList<>();
 
-		for(int i = 0; i < enemiesInRow; i++){
-			Enemy newEnemy = new GreenEnemy(i * 50 + 5, 425);
-			enemies.add(newEnemy);
-		}
+		EnemyRow newRow = new EnemyRow(5, 425);
+		rows.add(newRow);
 	}
 
 	void update(){
 		float dt = Gdx.graphics.getDeltaTime();
 		player.update(dt);
 
-		Iterator<Enemy> enemyIterator = enemies.iterator();
-		while(enemyIterator.hasNext()) {
-			Enemy enemy = enemyIterator.next();
-				enemy.update(dt);
-				Iterator<PlayerProjectile> projectileIterator = player.projs.iterator();
-				while(projectileIterator.hasNext()) {
-					PlayerProjectile proj = projectileIterator.next();
-					if (enemy.getRect().overlaps(proj.getRect())) {
-						proj.dispose();
-						projectileIterator.remove();
-						enemy.dispose();
-						enemyIterator.remove();
-					}
-				}
+		Iterator<EnemyRow> rowIterator = rows.iterator();
+		while(rowIterator.hasNext()) {
+			rowIterator.next().update(dt, player.projs);
 		}
 	}
 
@@ -66,9 +54,10 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		player.render(batch);
 
-		Iterator<Enemy> enemyIterator = enemies.iterator();
-		while(enemyIterator.hasNext()) {
-			enemyIterator.next().render(batch);
+		Iterator<EnemyRow> rowIterator = rows.iterator();
+		while(rowIterator.hasNext()) {
+			EnemyRow row = rowIterator.next();
+			row.render(batch);
 		}
 		batch.end();
 	}

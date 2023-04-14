@@ -9,7 +9,9 @@ public abstract class Enemy {
 
     Vector2 position, velocity, size;
     Texture texture;
-    int currentAnimFrame = 0;
+    int currentAnimFrame = 0, numFrames;
+    float animFrameTime, animTimer;
+
     float scale;
 
     public abstract void update(float dt);

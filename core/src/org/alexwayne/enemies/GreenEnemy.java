@@ -13,12 +13,41 @@ public class GreenEnemy extends Enemy {
         this.size = new Vector2(8, 8);
         this.scale = 5.0f;
         this.texture = new Texture("enemy_green.png");
+
+        numFrames = 2;
+        animFrameTime = 0.5f;
+        animTimer = animFrameTime;
     }
+
+    public GreenEnemy(float x, float y, float velX){
+        this.position = new Vector2(x, y);
+        this.velocity = new Vector2(velX, 0);
+        this.size = new Vector2(8, 8);
+        this.scale = 5.0f;
+        this.texture = new Texture("enemy_green.png");
+
+        numFrames = 2;
+        animFrameTime = 1.5f;
+        animTimer = animFrameTime;
+
+    }
+
+
 
     @Override
     public void update(float dt) {
         position.x += velocity.x * dt;
         position.y += velocity.y * dt;
+
+        if(animTimer <= 0) {
+            animTimer = animFrameTime;
+            currentAnimFrame++;
+            if(currentAnimFrame >= numFrames)
+                currentAnimFrame = 0;
+            System.out.println(currentAnimFrame);
+        } else {
+            animTimer -= dt;
+        }
     }
 
     @Override
@@ -43,4 +72,5 @@ public class GreenEnemy extends Enemy {
     public Rectangle getRect() {
         return new Rectangle(position.x, position.y, size.x * scale, size.y * scale);
     }
+
 }

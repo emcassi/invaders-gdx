@@ -2,6 +2,7 @@ package org.alexwayne;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerProjectile extends Projectile{
@@ -27,5 +28,10 @@ public class PlayerProjectile extends Projectile{
     @Override
     void dispose(){
         texture.dispose();
+    }
+
+    @Override
+    public Rectangle getRect(){
+        return new Rectangle(position.x, position.y, size.x, size.y);
     }
 }

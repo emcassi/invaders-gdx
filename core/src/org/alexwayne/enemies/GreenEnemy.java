@@ -2,6 +2,7 @@ package org.alexwayne.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class GreenEnemy extends Enemy {
@@ -31,5 +32,15 @@ public class GreenEnemy extends Enemy {
                 (int)(currentAnimFrame * size.y),
                 (int)(size.x),
                 (int)(size.y), false, false);
+    }
+
+    @Override
+    public void dispose() {
+        texture.dispose();
+    }
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(position.x, position.y, size.x * scale, size.y * scale);
     }
 }

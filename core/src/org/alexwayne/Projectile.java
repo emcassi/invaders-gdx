@@ -2,6 +2,7 @@ package org.alexwayne;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Projectile {
@@ -11,4 +12,5 @@ public abstract class Projectile {
     abstract void update(float dt);
     abstract void render(SpriteBatch batch);
     abstract void dispose();
+    abstract Rectangle getRect();
 }

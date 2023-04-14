@@ -9,13 +9,18 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import org.alexwayne.enemies.Enemy;
 import org.alexwayne.enemies.GreenEnemy;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Player player;
 
 	OrthographicCamera camera;
 
-	Enemy enemies[] = new Enemy[10];
+	int enemiesInRow = 10;
+	ArrayList<Enemy> enemies;
 
 	@Override
 	public void create () {
@@ -24,17 +29,32 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(1280, 720);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
+		enemies = new ArrayList<>();
 
-		for(int i = 0; i < enemies.length; i++){
-			enemies[i] = new GreenEnemy(i * 50 + 5, 425);
+		for(int i = 0; i < enemiesInRow; i++){
+			Enemy newEnemy = new GreenEnemy(i * 50 + 5, 425);
+			enemies.add(newEnemy);
 		}
 	}
 
 	void update(){
 		float dt = Gdx.graphics.getDeltaTime();
 		player.update(dt);
-		for(int i = 0; i < enemies.length; i++){
-			enemies[i].update(dt);
+
+		Iterator<Enemy> enemyIterator = enemies.iterator();
+		while(enemyIterator.hasNext()) {
+			Enemy enemy = enemyIterator.next();
+				enemy.update(dt);
+				Iterator<PlayerProjectile> projectileIterator = player.projs.iterator();
+				while(projectileIterator.hasNext()) {
+					PlayerProjectile proj = projectileIterator.next();
+					if (enemy.getRect().overlaps(proj.getRect())) {
+						proj.dispose();
+						projectileIterator.remove();
+						enemy.dispose();
+						enemyIterator.remove();
+					}
+				}
 		}
 	}
 
@@ -45,8 +65,10 @@ public class Game extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
 		player.render(batch);
-		for(int i = 0; i < enemies.length; i++){
-			enemies[i].render(batch);
+
+		Iterator<Enemy> enemyIterator = enemies.iterator();
+		while(enemyIterator.hasNext()) {
+			enemyIterator.next().render(batch);
 		}
 		batch.end();
 	}

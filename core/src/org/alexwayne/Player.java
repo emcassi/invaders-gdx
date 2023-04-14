@@ -18,7 +18,7 @@ public class Player {
     private int health = maxHealth;
 
 
-    ArrayList<PlayerProjectile> projs;
+    public ArrayList<PlayerProjectile> projs;
 
     public Player(float x, float y){
         position = new Vector2(x, y);

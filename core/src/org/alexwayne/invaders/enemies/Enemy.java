@@ -1,4 +1,4 @@
-package org.alexwayne.enemies;
+package org.alexwayne.invaders.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,9 +14,13 @@ public abstract class Enemy {
 
     float scale;
 
+    String dropsName = "green";
+
     public abstract void update(float dt);
 
     public abstract void render(SpriteBatch batch);
     abstract public void dispose();
     public abstract Rectangle getRect();
+
+
 }

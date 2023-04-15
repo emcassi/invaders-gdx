@@ -1,8 +1,8 @@
-package org.alexwayne.enemies;
+package org.alexwayne.invaders.enemies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import org.alexwayne.PlayerProjectile;
+import org.alexwayne.invaders.PlayerProjectile;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +17,7 @@ public class EnemyRow {
     public EnemyRow(float x, float y, float vel) {
         position = new Vector2(x, y);
         velocity = new Vector2(vel, 0);
-        enemies = new ArrayList<>();
+        enemies = new ArrayList<Enemy>();
         for (int i = 0; i < count; i++) {
             Enemy newEnemy = new GreenEnemy((i * 50) + 5, y, 40);
             enemies.add(newEnemy);

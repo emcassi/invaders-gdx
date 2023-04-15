@@ -1,4 +1,4 @@
-package org.alexwayne;
+package org.alexwayne.invaders;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -26,7 +26,7 @@ public class Player {
         velocity = new Vector2(0, 0);
         size = new Vector2(35, 40);
         img = new Texture("player.png");
-        projs = new ArrayList<>();
+        projs = new ArrayList<PlayerProjectile>();
     }
 
     public void render(SpriteBatch batch){

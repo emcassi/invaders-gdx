@@ -1,4 +1,4 @@
-package org.alexwayne;
+package org.alexwayne.invaders;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

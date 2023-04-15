@@ -1,4 +1,4 @@
-package org.alexwayne.enemies;
+package org.alexwayne.invaders.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

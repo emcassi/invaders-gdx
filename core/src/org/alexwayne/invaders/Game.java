@@ -1,11 +1,11 @@
-package org.alexwayne;
+package org.alexwayne.invaders;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import org.alexwayne.enemies.EnemyRow;
+import org.alexwayne.invaders.enemies.EnemyRow;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setWindowedMode(1280, 720);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
-		rows = new ArrayList<>();
+		rows = new ArrayList<EnemyRow>();
 		blockVel = blockSpeed;
 		blockWidth = enemiesInRow * 55;
 

@@ -33,7 +33,8 @@ public class GreenEnemy extends Enemy {
         animTimer = animFrameTime;
 
         dropTypes = new DropChance[]{
-                new DropChance(DropTypes.SPEEDUP, 10)
+                new DropChance(DropTypes.SPEEDUP, 10),
+                new DropChance(DropTypes.SHOOTFAST, 10)
         };
 
     }

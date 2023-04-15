@@ -19,8 +19,13 @@ public class Player {
     private Vector2 position, velocity, size;
     private float speed = 430, maxSpeed = 550, speedInc = 10;
 
-    private float bulletCooldown = 0.75f, bulletTimer = 0;
+    private float bulletCooldownDefault = 0.75f,
+            bulletCooldownFast = 0.4f,
+            bulletCooldown = bulletCooldownDefault,
+            bulletTimer = 0;
     boolean canShoot = true;
+
+    float timeToShootFast = 10, shootFastTimer;
 
     Sound shootSound;
     public ArrayList<PlayerProjectile> projs;
@@ -57,6 +62,14 @@ public class Player {
         }
         else if (position.x > 600) {
             position.x = 600;
+        }
+
+        if(bulletCooldown == bulletCooldownFast) {
+            if(shootFastTimer > 0){
+                shootFastTimer -= dt;
+            } else {
+                bulletCooldown = bulletCooldownDefault;
+            }
         }
 
         if(!canShoot) {
@@ -108,8 +121,9 @@ public class Player {
             speed = maxSpeed;
     }
 
-    public void setBulletCooldown(float bulletCooldown) {
-        this.bulletCooldown = bulletCooldown;
+    public void shootFast() {
+        bulletCooldown = bulletCooldownFast;
+        shootFastTimer = timeToShootFast;
     }
 
     public Rectangle getRect(){

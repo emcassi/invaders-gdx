@@ -7,12 +7,16 @@ import com.badlogic.gdx.math.Vector2;
 import org.alexwayne.invaders.Game;
 
 public abstract class Drop {
+    Game game;
 
     Vector2 position, size;
     float scale = 5;
     Texture texture;
     float gravity = 200;
     float floorLevel = 0;
+
+    boolean isOnFloor = false;
+    float timeToBeOnFloor = 5, floorTimer = timeToBeOnFloor;
 
     public abstract void activate(Game game);
     public void render(SpriteBatch batch){
@@ -24,6 +28,15 @@ public abstract class Drop {
 
         if(position.y <= floorLevel){
             position.y = floorLevel;
+        }
+
+        if(isOnFloor){
+            if(floorTimer <= 0){
+                game.destroyDrop(this);
+                dispose();
+            } else
+                floorTimer -= dt;
+
         }
     }
 

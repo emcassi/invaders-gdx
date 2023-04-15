@@ -128,4 +128,6 @@ public class Game extends ApplicationAdapter {
 	public void addDrop(Drop drop){
 		drops.add(drop);
 	}
+
+	public void destroyDrop(Drop drop) { drops.remove(drop); }
 }

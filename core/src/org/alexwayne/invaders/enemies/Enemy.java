@@ -8,6 +8,7 @@ import org.alexwayne.invaders.Game;
 import org.alexwayne.invaders.audio.SFX;
 import org.alexwayne.invaders.drops.Drop;
 import org.alexwayne.invaders.drops.DropChance;
+import org.alexwayne.invaders.drops.ShootFast;
 import org.alexwayne.invaders.drops.SpeedUp;
 
 import java.util.Random;
@@ -35,11 +36,15 @@ public abstract class Enemy {
         float total = 0;
         for(DropChance dc : dropTypes){
             if(diceRoll >= total && diceRoll < total + dc.getHitRate()){
+                Drop newDrop;
                 switch (dc.getType()){
                     case SPEEDUP:
-                        Drop newDrop = new SpeedUp(position.x, position.y);
+                        newDrop = new SpeedUp(position.x, position.y);
                         game.addDrop(newDrop);
                         break;
+                    case SHOOTFAST:
+                        newDrop = new ShootFast(position.x, position.y);
+                        game.addDrop(newDrop);
                     default:
                         break;
                 }

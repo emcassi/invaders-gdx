@@ -1,9 +1,9 @@
-package org.alexwayne.client;
+package org.alexwayne.invaders.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import org.alexwayne.Game;
+import org.alexwayne.invaders.Game;
 
 public class HtmlLauncher extends GwtApplication {
 

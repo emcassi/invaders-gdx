@@ -33,13 +33,15 @@ public abstract class Enemy {
 
         float diceRoll = random.nextFloat() * 100;
         float total = 0;
-        System.out.println(diceRoll);
         for(DropChance dc : dropTypes){
             if(diceRoll >= total && diceRoll < total + dc.getHitRate()){
                 switch (dc.getType()){
                     case SPEEDUP:
                         Drop newDrop = new SpeedUp(position.x, position.y);
                         game.addDrop(newDrop);
+                        break;
+                    default:
+                        break;
                 }
             }
             total += dc.getHitRate();

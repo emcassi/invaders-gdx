@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import org.alexwayne.invaders.drops.Drop;
 import org.alexwayne.invaders.enemies.EnemyRow;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -17,6 +19,8 @@ public class Game extends ApplicationAdapter {
 
 	int enemiesInRow = 10;
 	ArrayList<EnemyRow> rows;
+	ArrayList<Drop> drops;
+	float topRowY;
 
 	float blockPosX = 5, blockSpeed = 30, blockVel, blockWidth;
 
@@ -28,11 +32,13 @@ public class Game extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
 		rows = new ArrayList<EnemyRow>();
+		drops = new ArrayList<Drop>();
 		blockVel = blockSpeed;
 		blockWidth = enemiesInRow * 55;
 
 		for(int i = 0; i < 5; i++){
-			EnemyRow newRow = new EnemyRow(5, 430 + i * 60, blockVel);
+			topRowY = 430 + i * 60;
+			EnemyRow newRow = new EnemyRow(5, topRowY, blockVel, this);
 			rows.add(newRow);
 		}
 	}
@@ -61,6 +67,19 @@ public class Game extends ApplicationAdapter {
 				row.moveDown();
 			}
 		}
+
+		Iterator<Drop> dropIterator = drops.iterator();
+		while(dropIterator.hasNext()) {
+			Drop drop = dropIterator.next();
+
+			drop.update(dt);
+
+			if(player.getRect().overlaps(drop.getRect())) {
+				drop.activate(this);
+				drop.dispose();;
+				dropIterator.remove();
+			}
+		}
 	}
 
 	@Override
@@ -69,11 +88,17 @@ public class Game extends ApplicationAdapter {
 
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
+
+		for (Drop drop : drops) {
+			drop.render(batch);
+		}
+
 		player.render(batch);
 
 		for (EnemyRow row : rows) {
 			row.render(batch);
 		}
+
 		batch.end();
 	}
 
@@ -81,5 +106,18 @@ public class Game extends ApplicationAdapter {
 	public void dispose () {
 		player.dispose();
 		batch.dispose();
+	}
+
+	public Player getPlayer(){
+		return player;
+	}
+
+	public void addRow(){
+		EnemyRow newRow = new EnemyRow(5, topRowY + 60, blockVel, this);
+		rows.add(newRow);
+	}
+
+	public void addDrop(Drop drop){
+		drops.add(drop);
 	}
 }

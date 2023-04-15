@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class Player {
 
     private final Texture img;
     private Vector2 position, velocity, size;
-    private float speed = 430;
+    private float speed = 430, maxSpeed = 550, speedInc = 10;
 
     private float bulletCooldown = 0.75f, bulletTimer = 0;
     boolean canShoot = true;
@@ -90,11 +91,23 @@ public class Player {
         }
     }
 
-    public void setSpeed(float newSpeed) {
-        this.speed = speed;
+    public void speedDown() {
+        speed -= speedInc;
+        if(speed > maxSpeed)
+            speed = maxSpeed;
+    }
+
+    public void speedUp() {
+        speed += speedInc;
+        if(speed > maxSpeed)
+            speed = maxSpeed;
     }
 
     public void setBulletCooldown(float bulletCooldown) {
         this.bulletCooldown = bulletCooldown;
+    }
+
+    public Rectangle getRect(){
+        return new Rectangle(position.x, position.y, size.x, size.y);
     }
 }

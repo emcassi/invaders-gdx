@@ -2,10 +2,12 @@ package org.alexwayne.invaders.enemies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import org.alexwayne.invaders.Game;
 import org.alexwayne.invaders.PlayerProjectile;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class EnemyRow {
     ArrayList<Enemy> enemies;
@@ -13,8 +15,10 @@ public class EnemyRow {
 
     Vector2 position, velocity, size;
     boolean movingDown = false;
+    Random random;
+    Game game;
 
-    public EnemyRow(float x, float y, float vel) {
+    public EnemyRow(float x, float y, float vel, Game game) {
         position = new Vector2(x, y);
         velocity = new Vector2(vel, 0);
         enemies = new ArrayList<Enemy>();
@@ -25,6 +29,8 @@ public class EnemyRow {
 
         size = new Vector2(enemies.size() * 55, 60);
 
+        random = new Random();
+        this.game = game;
     }
 
     public void render(SpriteBatch batch) {
@@ -71,6 +77,8 @@ public class EnemyRow {
         while (projectileIterator.hasNext()) {
             PlayerProjectile proj = projectileIterator.next();
             if (enemy.getRect().overlaps(proj.getRect())) {
+                float diceRoll = random.nextFloat() * 100;
+                enemy.dropItem(diceRoll, game);
                 proj.dispose();
                 projectileIterator.remove();
                 enemy.dispose();

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import org.alexwayne.invaders.drops.DropChance;
+import org.alexwayne.invaders.drops.DropTypes;
 
 public class GreenEnemy extends Enemy {
 
@@ -29,6 +31,10 @@ public class GreenEnemy extends Enemy {
         numFrames = 2;
         animFrameTime = 1.5f;
         animTimer = animFrameTime;
+
+        dropTypes = new DropChance[]{
+                new DropChance(DropTypes.SPEEDUP, 10)
+        };
 
     }
 

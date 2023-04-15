@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import org.alexwayne.invaders.Game;
+import org.alexwayne.invaders.audio.SFX;
 import org.alexwayne.invaders.drops.Drop;
 import org.alexwayne.invaders.drops.DropChance;
-import org.alexwayne.invaders.drops.DropTypes;
 import org.alexwayne.invaders.drops.SpeedUp;
+
+import java.util.Random;
 
 public abstract class Enemy {
 
@@ -27,8 +29,9 @@ public abstract class Enemy {
     abstract public void dispose();
     public abstract Rectangle getRect();
 
-    public void dropItem(float diceRoll, Game game){
+    public void kill(Random random, Game game){
 
+        float diceRoll = random.nextFloat() * 100;
         float total = 0;
         System.out.println(diceRoll);
         for(DropChance dc : dropTypes){
@@ -41,5 +44,18 @@ public abstract class Enemy {
             }
             total += dc.getHitRate();
         }
+
+        int soundToPlay = random.nextInt(2);
+        switch (soundToPlay){
+            case 0:
+                game.getBoombox().playSound(SFX.BOOM1);
+                break;
+            case 1:
+                game.getBoombox().playSound(SFX.BOOM2);
+                break;
+            default:
+                break;
+        }
+
     }
 }

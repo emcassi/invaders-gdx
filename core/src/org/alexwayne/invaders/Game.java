@@ -1,10 +1,13 @@
 package org.alexwayne.invaders;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.AudioDevice;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import org.alexwayne.invaders.audio.Boombox;
 import org.alexwayne.invaders.drops.Drop;
 import org.alexwayne.invaders.enemies.EnemyRow;
 
@@ -24,10 +27,12 @@ public class Game extends ApplicationAdapter {
 
 	float blockPosX = 5, blockSpeed = 30, blockVel, blockWidth;
 
+	Boombox boombox;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		player = new Player(300, 0);
+		player = new Player(300, 0, this);
 		Gdx.graphics.setWindowedMode(1280, 720);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 400);
@@ -41,6 +46,8 @@ public class Game extends ApplicationAdapter {
 			EnemyRow newRow = new EnemyRow(5, topRowY, blockVel, this);
 			rows.add(newRow);
 		}
+
+		boombox = new Boombox();
 	}
 
 	void update(){
@@ -111,6 +118,7 @@ public class Game extends ApplicationAdapter {
 	public Player getPlayer(){
 		return player;
 	}
+	public Boombox getBoombox() { return boombox; }
 
 	public void addRow(){
 		EnemyRow newRow = new EnemyRow(5, topRowY + 60, blockVel, this);

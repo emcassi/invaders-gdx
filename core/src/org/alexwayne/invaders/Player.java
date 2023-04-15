@@ -2,16 +2,19 @@ package org.alexwayne.invaders;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import org.alexwayne.invaders.audio.SFX;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Player {
 
+    Game game;
     private final Texture img;
     private Vector2 position, velocity, size;
     private float speed = 430, maxSpeed = 550, speedInc = 10;
@@ -19,13 +22,14 @@ public class Player {
     private float bulletCooldown = 0.75f, bulletTimer = 0;
     boolean canShoot = true;
 
-
+    Sound shootSound;
     public ArrayList<PlayerProjectile> projs;
 
-    public Player(float x, float y){
+    public Player(float x, float y, Game game){
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
         size = new Vector2(35, 40);
+        this.game = game;
         img = new Texture("player.png");
         projs = new ArrayList<PlayerProjectile>();
     }
@@ -67,6 +71,7 @@ public class Player {
                 PlayerProjectile newProj = new PlayerProjectile(position.x + 13, position.y);
                 projs.add(newProj);
                 canShoot = false;
+                game.boombox.playSound(SFX.PLAYER_SHOOT);
             }
         }
 

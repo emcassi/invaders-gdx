@@ -77,8 +77,7 @@ public class EnemyRow {
         while (projectileIterator.hasNext()) {
             PlayerProjectile proj = projectileIterator.next();
             if (enemy.getRect().overlaps(proj.getRect())) {
-                float diceRoll = random.nextFloat() * 100;
-                enemy.dropItem(diceRoll, game);
+                enemy.kill(random, game);
                 proj.dispose();
                 projectileIterator.remove();
                 enemy.dispose();

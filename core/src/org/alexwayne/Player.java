@@ -14,8 +14,9 @@ public class Player {
     private final Texture img;
     private Vector2 position, velocity, size;
     private float speed = 430;
-    private int maxHealth = 3;
-    private int health = maxHealth;
+
+    private float bulletCooldown = 0.75f, bulletTimer = 0;
+    boolean canShoot = true;
 
 
     public ArrayList<PlayerProjectile> projs;
@@ -53,9 +54,19 @@ public class Player {
             position.x = 600;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            PlayerProjectile newProj = new PlayerProjectile(position.x + 13, position.y);
-            projs.add(newProj);
+        if(!canShoot) {
+            if (bulletTimer <= 0) {
+                bulletTimer = bulletCooldown;
+                canShoot = true;
+            } else {
+                bulletTimer -= dt;
+            }
+        } else {
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                PlayerProjectile newProj = new PlayerProjectile(position.x + 13, position.y);
+                projs.add(newProj);
+                canShoot = false;
+            }
         }
 
         Iterator<PlayerProjectile> iter = projs.iterator();
@@ -70,10 +81,6 @@ public class Player {
         }
     }
 
-    public void TakeDamage(int amount){
-        health -= amount;
-    }
-
     public void dispose(){
 
         img.dispose();
@@ -81,5 +88,13 @@ public class Player {
         for( PlayerProjectile proj : projs) {
             proj.dispose();
         }
+    }
+
+    public void setSpeed(float newSpeed) {
+        this.speed = speed;
+    }
+
+    public void setBulletCooldown(float bulletCooldown) {
+        this.bulletCooldown = bulletCooldown;
     }
 }

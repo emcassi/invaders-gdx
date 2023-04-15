@@ -61,8 +61,6 @@ public class Game extends ApplicationAdapter {
 				row.moveDown();
 			}
 		}
-
-		System.out.println(blockPosX);
 	}
 
 	@Override
